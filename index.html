@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- SIDEBAR -->
+<div id="sidebar">
+  <div class="sb-logo">
+    <h1>مشروع فال</h1>
+    <p>شركة ميلانو للأعمال الخشبية</p>
+  </div>
+  <nav>
+    <div class="sb-section">الرئيسية</div>
+    <div class="sb-item active" onclick="showPage('dashboard',this)"><span class="sb-icon">📊</span>لوحة المتابعة</div>
+    <div class="sb-item" onclick="showPage('alerts',this)"><span class="sb-icon">🔔</span>التنبيهات<span class="sb-badge" id="sb-alert-count">0</span></div>
+    <div class="sb-section">الفراغات</div>
+    <div class="sb-item" onclick="showPage('living',this)"><span class="sb-icon">🛋️</span>مناطق المعيشة</div>
+    <div class="sb-item" onclick="showPage('bathrooms',this)"><span class="sb-icon">🚿</span>دورات المياه</div>
+    <div class="sb-item" onclick="showPage('bedrooms',this)"><span class="sb-icon">🛏️</span>الغرف</div>
+    <div class="sb-item" onclick="showPage('majles',this)"><span class="sb-icon">🏛️</span>المجالس والضيافة</div>
+    <div class="sb-item" onclick="showPage('mashrabiat',this)"><span class="sb-icon">🔲</span>المشربيات والإطارات</div>
+    <div class="sb-item" onclick="showPage('abaya',this)"><span class="sb-icon">👔</span>خزائن العباية</div>
+    <div class="sb-section">الإدارة</div>
+    <div class="sb-item" onclick="showPage('supply',this)"><span class="sb-icon">📦</span>المشتريات والتوريد</div>
+    <div class="sb-item" onclick="showPage('vendors',this)"><span class="sb-icon">🏢</span>الشركات الخارجية</div>
+    <div class="sb-item" onclick="showPage('team',this)"><span class="sb-icon">👥</span>فريق العمل</div>
+  </nav>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+
+<!-- DASHBOARD -->
+<div class="page active" id="page-dashboard">
+  <div class="topbar">
+    <div><h2>لوحة المتابعة اليومية</h2><div class="topbar-sub" id="today-date"></div></div>
+    <button class="btn btn-gold btn-sm" onclick="showPage('alerts',document.querySelector('.sb-item:nth-child(2)'))">عرض التنبيهات</button>
+  </div>
+  <div class="cards-row" id="dash-cards"></div>
+  <div class="alert-box a-err">
+    <div class="alert-icon">⚠️</div>
+    <div><div class="alert-title">مغسلة العينة — خطأ في القياس</div><div class="alert-text">تم التصنيع ولكن يوجد خطأ في القياس — يجري التعديل حالياً. المسؤول: دروقا / مهندس علي</div></div>
+  </div>
+  <div class="reminder-box">
+    <div style="font-size:18px">📅</div>
+    <div><div style="font-size:13px;font-weight:700;color:var(--gold)">تذكير — الأسبوع القادم</div><div style="font-size:12px;color:var(--mid);margin-top:3px">يجب البدء بالعمل على <strong style="color:var(--gold)">الغرفة رقم 8</strong>. تأكد من جاهزية القياسات (ياسر) والتصاميم (مهندس علي) والجدولة (محمود).</div></div>
+  </div>
+  <br>
+  <h3 style="color:var(--gold-light);font-size:13px;margin-bottom:10px">حالة الفراغات</h3>
+  <div class="tbl-wrap"><table><thead><tr><th>الفراغ</th><th>الرمز</th><th>العدد</th><th>الحالة</th><th>الإنجاز</th><th>المرحلة</th></tr></thead><tbody id="dash-table"></tbody></table></div>
+</div>
+
+<!-- ALERTS PAGE -->
+<div class="page" id="page-alerts">
+  <div class="topbar"><div><h2>التنبيهات والإشعارات</h2><div class="topbar-sub">تنبيهات تلقائية ويدوية</div></div>
+    <button class="btn btn-gold btn-sm" onclick="addManualAlert()">+ إضافة تنبيه</button>
+  </div>
+  <div id="alerts-container"></div>
+</div>
+
+<!-- LIVING -->
+<div class="page" id="page-living">
+  <div class="topbar"><div><h2>مناطق المعيشة والجلوس</h2><div class="topbar-sub">Living & Sitting Areas</div></div>
+    <button class="btn btn-outline btn-sm" onclick="showAddRoom('living')">+ إضافة فراغ</button>
+  </div>
+  <div class="room-grid" id="grid-living"></div>
+  <div id="addroom-living" style="display:none"></div>
+</div>
+
+<!-- BATHROOMS -->
+<div class="page" id="page-bathrooms">
+  <div class="topbar"><div><h2>دورات المياه</h2><div class="topbar-sub">Bathroom Vanities & Shelves</div></div>
+    <button class="btn btn-outline btn-sm" onclick="showAddRoom('bathrooms')">+ إضافة فراغ</button>
+  </div>
+  <div class="room-grid" id="grid-bathrooms"></div>
+  <div id="addroom-bathrooms" style="display:none"></div>
+</div>
+
+<!-- BEDROOMS -->
+<div class="page" id="page-bedrooms">
+  <div class="topbar"><div><h2>الغرف</h2><div class="topbar-sub">Bedrooms & Rooms</div></div>
+    <button class="btn btn-outline btn-sm" onclick="showAddRoom('bedrooms')">+ إضافة فراغ</button>
+  </div>
+  <div class="room-grid" id="grid-bedrooms"></div>
+  <div id="addroom-bedrooms" style="display:none"></div>
+</div>
+
+<!-- MAJLES -->
+<div class="page" id="page-majles">
+  <div class="topbar"><div><h2>المجالس والضيافة</h2><div class="topbar-sub">Guest Majles & Dining</div></div>
+    <button class="btn btn-outline btn-sm" onclick="showAddRoom('majles')">+ إضافة فراغ</button>
+  </div>
+  <div class="room-grid" id="grid-majles"></div>
+  <div id="addroom-majles" style="display:none"></div>
+</div>
+
+<!-- MASHRABIAT -->
+<div class="page" id="page-mashrabiat">
+  <div class="topbar"><div><h2>المشربيات والإطارات</h2><div class="topbar-sub">Steel Works — شركة اللامع</div></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>النوع</th><th>القياس</th><th>العدد</th><th>الحالة</th><th>ملاحظات</th></tr></thead>
+    <tbody id="mash-table"></tbody>
+  </table></div>
+</div>
+
+<!-- ABAYA -->
+<div class="page" id="page-abaya">
+  <div class="topbar"><div><h2>خزائن العباية</h2><div class="topbar-sub">Abaya Cabinets</div></div>
+    <button class="btn btn-outline btn-sm" onclick="showAddRoom('abaya')">+ إضافة فراغ</button>
+  </div>
+  <div class="room-grid" id="grid-abaya"></div>
+  <div id="addroom-abaya" style="display:none"></div>
+</div>
+
+<!-- SUPPLY CHAIN -->
+<div class="page" id="page-supply">
+  <div class="topbar"><div><h2>سلسلة التوريد والمشتريات</h2><div class="topbar-sub">Supply Chain & Procurement</div></div>
+    <button class="btn btn-gold btn-sm" onclick="addSupplyOrder()">+ طلب جديد</button>
+  </div>
+  <div id="supply-list"></div>
+</div>
+
+<!-- VENDORS -->
+<div class="page" id="page-vendors">
+  <div class="topbar"><div><h2>الشركات الخارجية والموردون</h2><div class="topbar-sub">Subcontractors & Vendors</div></div>
+    <button class="btn btn-gold btn-sm" onclick="addVendor()">+ إضافة شركة</button>
+  </div>
+  <div id="vendors-list"></div>
+</div>
+
+<!-- TEAM -->
+<div class="page" id="page-team">
+  <div class="topbar"><div><h2>فريق العمل</h2><div class="topbar-sub">الهيكل الإداري</div></div></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px" id="team-grid"></div>
+</div>
+
+</div><!-- /main -->
+</div><!-- /app -->
+
+<!-- MODAL -->
+<div id="modal-overlay" onclick="closeModal(event)">
+<div id="modal">
+  <div class="modal-head">
+    <div class="modal-title" id="modal-title"></div>
+    <button class="modal-close" onclick="document.getElementById('modal-overlay').classList.remove('open')">✕</button>
+  </div>
+  <div id="modal-body"></div>
+</div>
+</div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
